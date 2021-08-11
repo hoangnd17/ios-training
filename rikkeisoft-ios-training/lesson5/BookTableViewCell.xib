@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="68" id="KGk-i7-Jjw" customClass="BookTableViewCell" customModule="lesson5" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uYk-rP-nlJ">
+                        <rect key="frame" x="10" y="0.0" width="80" height="68"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="Zm2-nO-yKE"/>
+                        </constraints>
+                        <state key="normal" title="first" image="Logo"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rS1-w2-fJf">
+                        <rect key="frame" x="120" y="0.0" width="80" height="68"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="MQJ-n0-eeW"/>
+                        </constraints>
+                        <state key="normal" title="second" image="Logo"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t4g-N0-37z">
+                        <rect key="frame" x="230" y="0.0" width="80" height="68"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="We0-Xo-UWl"/>
+                        </constraints>
+                        <state key="normal" title="third" image="Logo"/>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" red="0.61568627450000002" green="0.86666666670000003" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="uYk-rP-nlJ" secondAttribute="bottom" id="2fb-G7-kSj"/>
+                    <constraint firstItem="uYk-rP-nlJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="7hh-gz-IeN"/>
+                    <constraint firstItem="t4g-N0-37z" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Be6-cA-vIZ"/>
+                    <constraint firstAttribute="trailing" secondItem="t4g-N0-37z" secondAttribute="trailing" constant="10" id="Hpt-OC-Y9t"/>
+                    <constraint firstAttribute="bottom" secondItem="t4g-N0-37z" secondAttribute="bottom" id="KAD-Ep-g0j"/>
+                    <constraint firstItem="uYk-rP-nlJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="QHE-e6-pqV"/>
+                    <constraint firstItem="rS1-w2-fJf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="XTv-th-zPy"/>
+                    <constraint firstAttribute="bottom" secondItem="rS1-w2-fJf" secondAttribute="bottom" id="tqN-LG-S1J"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <constraints>
+                <constraint firstItem="rS1-w2-fJf" firstAttribute="centerX" secondItem="njF-e1-oar" secondAttribute="centerX" id="lrz-Qj-Jap"/>
+            </constraints>
+            <point key="canvasLocation" x="-184.05797101449278" y="49.553571428571423"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Logo" width="259" height="224"/>
+    </resources>
+</document>
