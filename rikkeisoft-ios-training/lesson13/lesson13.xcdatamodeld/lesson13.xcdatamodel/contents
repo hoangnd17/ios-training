@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H1323" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Certificate" representedClassName="Certificate" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="isOwn" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Employee" inverseName="has" inverseEntity="Employee"/>
+    </entity>
+    <entity name="Employee" representedClassName="Employee" syncable="YES">
+        <attribute name="fsu" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="has" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Certificate" inverseName="isOwn" inverseEntity="Certificate"/>
+    </entity>
+    <elements>
+        <element name="Certificate" positionX="426.88671875" positionY="2120.73828125" width="128" height="88"/>
+        <element name="Employee" positionX="80.57421875" positionY="2185.796875" width="131.62890625" height="103"/>
+    </elements>
+</model>
