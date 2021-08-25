@@ -132,6 +132,7 @@ extension OneViewController:  UIImagePickerControllerDelegate, UINavigationContr
         picker.dismiss(animated: true, completion: nil)
     }
 }
+
 extension String
 {
     func isStringAnInt() -> Bool {

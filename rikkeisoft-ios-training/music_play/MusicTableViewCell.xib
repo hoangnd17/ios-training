@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="80" id="KGk-i7-Jjw" customClass="MusicTableViewCell" customModule="music_play" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="338" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="338" height="80"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="EbB-Dl-3Rg">
+                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="EbB-Dl-3Rg" secondAttribute="height" multiplier="1:1" id="f3x-xS-Y4T"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpx-pr-0cD">
+                        <rect key="frame" x="88" y="0.0" width="250" height="40"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QSm-6J-S6r">
+                        <rect key="frame" x="88" y="40" width="250" height="40"/>
+                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="QSm-6J-S6r" secondAttribute="bottom" id="071-yQ-8Nr"/>
+                    <constraint firstItem="wpx-pr-0cD" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.7" id="6pk-xv-SIa"/>
+                    <constraint firstItem="wpx-pr-0cD" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="EQD-Tf-W1V"/>
+                    <constraint firstItem="EbB-Dl-3Rg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="IQu-Ev-PIa"/>
+                    <constraint firstItem="wpx-pr-0cD" firstAttribute="leading" secondItem="EbB-Dl-3Rg" secondAttribute="trailing" constant="10" id="Qpg-LX-4Z7"/>
+                    <constraint firstItem="QSm-6J-S6r" firstAttribute="top" secondItem="wpx-pr-0cD" secondAttribute="bottom" id="hqh-pq-jSa"/>
+                    <constraint firstAttribute="trailing" secondItem="wpx-pr-0cD" secondAttribute="trailing" id="jk6-Rn-sGg"/>
+                    <constraint firstItem="QSm-6J-S6r" firstAttribute="leading" secondItem="EbB-Dl-3Rg" secondAttribute="trailing" constant="10" id="leE-kp-jHD"/>
+                    <constraint firstAttribute="trailing" secondItem="QSm-6J-S6r" secondAttribute="trailing" id="qKS-Nb-LIa"/>
+                    <constraint firstItem="EbB-Dl-3Rg" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.236686" id="sPa-cS-y0g"/>
+                    <constraint firstAttribute="bottom" secondItem="EbB-Dl-3Rg" secondAttribute="bottom" id="ybD-wo-JbC"/>
+                    <constraint firstItem="EbB-Dl-3Rg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="zKt-jm-RFk"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="artist" destination="QSm-6J-S6r" id="Cc9-UP-w21"/>
+                <outlet property="name" destination="wpx-pr-0cD" id="aM9-aC-HSw"/>
+                <outlet property="thumbnail" destination="EbB-Dl-3Rg" id="G4Q-as-bEl"/>
+            </connections>
+            <point key="canvasLocation" x="-17.39130434782609" y="91.741071428571431"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Logo" width="259" height="224"/>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
