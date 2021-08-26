@@ -36,16 +36,24 @@ class MusiicViewController: UIViewController {
         musicTb.register(UINib(nibName: "MusicTableViewCell", bundle: nil), forCellReuseIdentifier: "MusicTableViewCell")
         
         listURL = fileUrls(for: .documentDirectory)
-        // airplay
+        
+        // setup
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.interruptSpokenAudioAndMixWithOthers, .allowAirPlay])
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             print(error)
         }
+        setupMediaPlayerNotificationView()
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+          super.viewDidAppear(animated)
+          self.becomeFirstResponder()
+      }
+
+    // update time slider
     @IBAction func changeTime(_ sender: UISlider) {
         guard let player = player else { return }
         player.pause()
@@ -59,19 +67,22 @@ class MusiicViewController: UIViewController {
         } else {
             player.currentTime = target
             pauseBtn.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
-            if (sender.value  == 1.0){
-                
-            }
+            
         }
         doubleTap = false
     }
     
+    // import from itune
     @IBAction func importMusic(_ sender: Any) {
         let controller = MPMediaPickerController(mediaTypes: .music)
         controller.allowsPickingMultipleItems = true
         controller.popoverPresentationController?.sourceView = sender as? UIView
         controller.delegate = self
         present(controller, animated: true)
+    }
+    
+    func next()  {
+        
     }
     
     @IBAction func nextMusic(_ sender: Any) {
@@ -163,6 +174,7 @@ class MusiicViewController: UIViewController {
         return info
     }
     
+    // play music
     func play(_ url: URL) {
         
         do {
@@ -178,6 +190,9 @@ class MusiicViewController: UIViewController {
             DispatchQueue.main.async {
                 self.duration.text = self.player?.duration.stringFromTimeInterval()
             }
+            
+            setupNowPlaying()
+            
         } catch let error {
             player = nil
             print(error)
@@ -199,6 +214,92 @@ class MusiicViewController: UIViewController {
         let remain = player!.duration - player!.currentTime
         duration.text = remain.stringFromTimeInterval()
     }
+    
+    
+    func setupNowPlaying() {
+        print("setupPlaying")
+        
+        // Define Now Playing Info
+        let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
+        var nowPlayingInfo = nowPlayingInfoCenter.nowPlayingInfo ?? [String: Any]()
+        
+        let image = UIImage(named: "Logo") ?? UIImage()
+        let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: {  (_) -> UIImage in
+            return image
+        })
+        
+        nowPlayingInfo[MPMediaItemPropertyTitle] = nameSong.text
+        nowPlayingInfo[MPMediaItemPropertyArtist] = nameArtirst.text
+        nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: 1.0)
+        nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
+    }
+    
+    // setup remote control
+    func setupMediaPlayerNotificationView() {
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+        let commandCenter = MPRemoteCommandCenter.shared()
+        
+        // add handle
+        commandCenter.playCommand.addTarget(self, action: #selector(playCenter))
+        commandCenter.pauseCommand.addTarget(self, action: #selector(pauseCenter))
+        commandCenter.nextTrackCommand.addTarget(self, action: #selector(nextCenter))
+        commandCenter.previousTrackCommand.addTarget(self, action: #selector(previousCenter))
+    }
+    
+    
+    @objc func playCenter()  -> MPRemoteCommandHandlerStatus  {
+        guard let player = player else {
+            print(" no player")
+            return .commandFailed
+        }
+        pauseBtn.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
+        player.play()
+        print("play")
+        doubleTap = false
+        return .success
+    }
+    
+    @objc func pauseCenter() -> MPRemoteCommandHandlerStatus  {
+        guard let player = player else {
+            return .commandFailed
+        }
+        player.pause()
+        pauseBtn.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
+    
+        doubleTap = true
+        print("pause")
+        return.success
+    }
+    
+    @objc func nextCenter() -> MPRemoteCommandHandlerStatus  {
+        if currentIndex == listURL.count - 1 {
+            currentIndex = 0
+        } else {
+            currentIndex += 1
+        }
+        let model = listURL[currentIndex]
+       
+        configLaunchView(with: model)
+        play(model)
+        print("next")
+        return.success
+    }
+    
+    @objc func previousCenter() -> MPRemoteCommandHandlerStatus  {
+        if currentIndex == 0 {
+            currentIndex = listURL.count - 1
+        } else {
+            currentIndex -= 1
+        }
+        let model = listURL[currentIndex]
+       
+        configLaunchView(with: model)
+        play(model)
+        print("previous")
+        return.success
+    }
+    
 }
 
 
@@ -261,8 +362,6 @@ extension MusiicViewController: MPMediaPickerControllerDelegate {
             }
         }
         
-        //        let player = MPMusicPlayerController.systemMusicPlayer
-        //        player.setQueue(with: mediaItemCollection)
         mediaPicker.dismiss(animated: true)
     }
     
@@ -273,7 +372,21 @@ extension MusiicViewController: MPMediaPickerControllerDelegate {
     
 }
 extension MusiicViewController: AVAudioPlayerDelegate {
-    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        if flag == true {
+            if currentIndex == listURL.count - 1 {
+                currentIndex = 0
+            } else {
+                currentIndex += 1
+            }
+            let model = listURL[currentIndex]
+            
+            UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                self.configLaunchView(with: model)
+                self.play(model)
+            })
+        }
+    }
 }
 
 enum ExportError: Error {
