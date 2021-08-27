@@ -35,8 +35,7 @@ class MusiicViewController: UIViewController {
         
         musicTb.register(UINib(nibName: "MusicTableViewCell", bundle: nil), forCellReuseIdentifier: "MusicTableViewCell")
         
-        listURL = fileUrls(for: .documentDirectory)
-        
+        listURL = fileUrlAudio()
         // setup
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
@@ -49,10 +48,10 @@ class MusiicViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-          super.viewDidAppear(animated)
-          self.becomeFirstResponder()
-      }
-
+        super.viewDidAppear(animated)
+        self.becomeFirstResponder()
+    }
+    
     // update time slider
     @IBAction func changeTime(_ sender: UISlider) {
         guard let player = player else { return }
@@ -133,47 +132,6 @@ class MusiicViewController: UIViewController {
         })
     }
     
-    // export to document
-    func export(assetURL: URL, nameArtist: String, nameSong: String, completionHandler: @escaping (_ fileURL: URL?, _ error: Error?) -> ()) {
-        let asset = AVURLAsset(url: assetURL)
-        guard let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetAppleM4A) else {
-            completionHandler(nil, ExportError.unableToCreateExporter)
-            return
-        }
-        
-        // set name file (name - artist)
-        let path = "\(nameSong)-\(nameArtist)"
-        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let fileURL = documentsURL.appendingPathComponent(path) .appendingPathExtension("m4a")
-        
-        // check exists in document
-        if FileManager.default.fileExists(atPath: fileURL.path) {
-            print("music exist")
-        } else {
-            exporter.outputURL = fileURL
-            exporter.outputFileType = AVFileType(rawValue: "com.apple.m4a-audio")
-            exporter.exportAsynchronously {
-                if exporter.status == .completed {
-                    completionHandler(fileURL, nil)
-                } else {
-                    completionHandler(nil, exporter.error)
-                }
-            }
-        }
-    }
-    
-    func fileUrls(for directory: FileManager.SearchPathDirectory, skipsHiddenFiles: Bool = true ) -> [URL] {
-        let documentsURL = FileManager.default.urls(for: directory, in: .userDomainMask)[0]
-        let fileURLs = try? FileManager.default.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil, options: skipsHiddenFiles ? .skipsHiddenFiles : [] )
-        return fileURLs ?? []
-    }
-    
-    func separateName(_ name: String) -> [String] {
-        let info = name.components(separatedBy: "-")
-        
-        return info
-    }
-    
     // play music
     func play(_ url: URL) {
         
@@ -216,14 +174,154 @@ class MusiicViewController: UIViewController {
     }
     
     
-    func setupNowPlaying() {
-        print("setupPlaying")
+    func loadImageFromDiskWith(fileName: String) -> UIImage? {
+
+      let documentDirectory = FileManager.SearchPathDirectory.documentDirectory
+
+        let userDomainMask = FileManager.SearchPathDomainMask.userDomainMask
+        let paths = NSSearchPathForDirectoriesInDomains(documentDirectory, userDomainMask, true)
+
+        if let dirPath = paths.first {
+            let imageUrl = URL(fileURLWithPath: dirPath).appendingPathComponent(fileName)
+            let image = UIImage(contentsOfFile: imageUrl.path)
+            return image
+
+        }
+
+        return nil
+    }
+}
+
+
+
+extension MusiicViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return fileUrlAudio().count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let model = listURL[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MusicTableViewCell", for: indexPath) as! MusicTableViewCell
+        
+        let info = separateName(model.deletingPathExtension().lastPathComponent)
+        
+        cell.name.text = info[0]
+        cell.artist.text = info[1]
+        if let image = loadImageFromDiskWith(fileName: model.deletingPathExtension().lastPathComponent)  {
+            cell.thumbnail.image = image
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        80
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        currentIndex = indexPath.row
+        let model = listURL[indexPath.row]
+        
+        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+            self.launchView.isHidden = false
+            self.configLaunchView(with: model)
+            self.play(model)
+        })
+    }
+}
+
+
+extension MusiicViewController: MPMediaPickerControllerDelegate {
+    func mediaPicker(_ mediaPicker: MPMediaPickerController,
+                     didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
+        for mediaItem in mediaItemCollection.items {
+            guard let assetURL = mediaItem.assetURL,
+                  let nameArtist = mediaItem.artist,
+                  let artwork = mediaItem.artwork?.image(at: CGSize(width: 100, height: 100)),
+                  let nameSong = mediaItem.title else {
+                return
+            }
+            
+            export(assetURL: assetURL, nameArtist: nameArtist, nameSong: nameSong, artwork: artwork) { fileURL, error in
+                guard let fileURL = fileURL, error == nil else {
+                    print("export failed: \(String(describing: error))")
+                    return
+                }
+                
+                print(fileURL.lastPathComponent)
+                DispatchQueue.main.async {
+                    self.listURL = self.fileUrlAudio()
+                    self.musicTb.reloadData()
+                }
+            }
+        }
+        
+        mediaPicker.dismiss(animated: true)
+    }
+    
+    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
+        mediaPicker.dismiss(animated: true)
+    }
+    
+    // export to document
+    func export(assetURL: URL, nameArtist: String, nameSong: String,artwork: UIImage, completionHandler: @escaping (_ fileURL: URL?, _ error: Error?) -> ()) {
+        let asset = AVURLAsset(url: assetURL)
+        guard let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetAppleM4A) else {
+            completionHandler(nil, ExportError.unableToCreateExporter)
+            return
+        }
+        
+        // set name file (name - artist)
+        let path = "\(nameSong)-\(nameArtist)"
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent(path) .appendingPathExtension("m4a")
+        
+        // check exists in document
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            print("music exist")
+        } else {
+            exporter.outputURL = fileURL
+            exporter.outputFileType = AVFileType(rawValue: "com.apple.m4a-audio")
+            exporter.exportAsynchronously {
+                if exporter.status == .completed {
+                    completionHandler(fileURL, nil)
+                } else {
+                    completionHandler(nil, exporter.error)
+                }
+            }
+            
+            saveImage(imageName: path, image: artwork)
+        }
+    }
+    
+    func fileUrlAudio() -> [URL] {
+        var res = [URL]()
+        let list = FileManager.default.fileUrls(for: .documentDirectory) ?? []
+        for url in list {
+            if url.pathExtension == "m4a" {
+                res.append(url)
+            }
+        }
+        return res
+    }
+    
+    func separateName(_ name: String) -> [String] {
+        let info = name.components(separatedBy: "-")
+        
+        return info
+    }
+    
+    func setupNowPlaying() {
+
         // Define Now Playing Info
         let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
         var nowPlayingInfo = nowPlayingInfoCenter.nowPlayingInfo ?? [String: Any]()
         
-        let image = UIImage(named: "Logo") ?? UIImage()
+        let model = listURL[currentIndex]
+        guard let image = loadImageFromDiskWith(fileName: model.deletingPathExtension().lastPathComponent) else {
+            return
+        }
         let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: {  (_) -> UIImage in
             return image
         })
@@ -250,12 +348,10 @@ class MusiicViewController: UIViewController {
     
     @objc func playCenter()  -> MPRemoteCommandHandlerStatus  {
         guard let player = player else {
-            print(" no player")
             return .commandFailed
         }
         pauseBtn.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
         player.play()
-        print("play")
         doubleTap = false
         return .success
     }
@@ -266,9 +362,8 @@ class MusiicViewController: UIViewController {
         }
         player.pause()
         pauseBtn.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
-    
+        
         doubleTap = true
-        print("pause")
         return.success
     }
     
@@ -279,7 +374,7 @@ class MusiicViewController: UIViewController {
             currentIndex += 1
         }
         let model = listURL[currentIndex]
-       
+        
         configLaunchView(with: model)
         play(model)
         print("next")
@@ -293,83 +388,34 @@ class MusiicViewController: UIViewController {
             currentIndex -= 1
         }
         let model = listURL[currentIndex]
-       
+        
         configLaunchView(with: model)
         play(model)
-        print("previous")
         return.success
     }
     
-}
-
-
-
-extension MusiicViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return FileManager.default.fileUrls(for: .documentDirectory)!.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func saveImage(imageName: String, image: UIImage) {
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
-        let model = listURL[indexPath.row]
+        let fileName = imageName
+        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        guard let data = image.jpegData(compressionQuality: 1) else { return }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MusicTableViewCell", for: indexPath) as! MusicTableViewCell
-        
-        let info = separateName(model.deletingPathExtension().lastPathComponent)
-        
-        cell.name.text = info[0]
-        cell.artist.text = info[1]
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        80
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        currentIndex = indexPath.row
-        let model = listURL[indexPath.row]
-        
-        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
-            self.launchView.isHidden = false
-            self.configLaunchView(with: model)
-            self.play(model)
-        })
-    }
-}
-
-
-extension MusiicViewController: MPMediaPickerControllerDelegate {
-    func mediaPicker(_ mediaPicker: MPMediaPickerController,
-                     didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
-        
-        for mediaItem in mediaItemCollection.items {
-            guard let assetURL = mediaItem.assetURL,
-                  let nameArtist = mediaItem.artist,
-                  let nameSong = mediaItem.title else {
-                return
-            }
-            export(assetURL: assetURL, nameArtist: nameArtist, nameSong: nameSong ) { fileURL, error in
-                guard let fileURL = fileURL, error == nil else {
-                    print("export failed: \(String(describing: error))")
-                    return
-                }
-                
-                print("\(fileURL)")
-                DispatchQueue.main.async {
-                    self.listURL = self.fileUrls(for: .documentDirectory)
-                    self.musicTb.reloadData()
-                }
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            do {
+                try FileManager.default.removeItem(atPath: fileURL.path)
+                print("Removed old image")
+            } catch let removeError {
+                print("couldn't remove file at path", removeError)
             }
         }
+        do {
+            try data.write(to: fileURL)
+        } catch let error {
+            print("error saving file with error", error)
+        }
         
-        mediaPicker.dismiss(animated: true)
     }
-    
-    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
-        mediaPicker.dismiss(animated: true)
-    }
-    
-    
 }
 extension MusiicViewController: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {

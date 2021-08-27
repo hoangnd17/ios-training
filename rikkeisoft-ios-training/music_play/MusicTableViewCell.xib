@@ -43,11 +43,11 @@
                     <constraint firstItem="wpx-pr-0cD" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="EQD-Tf-W1V"/>
                     <constraint firstItem="EbB-Dl-3Rg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="IQu-Ev-PIa"/>
                     <constraint firstItem="wpx-pr-0cD" firstAttribute="leading" secondItem="EbB-Dl-3Rg" secondAttribute="trailing" constant="10" id="Qpg-LX-4Z7"/>
+                    <constraint firstItem="EbB-Dl-3Rg" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" id="cmg-Dg-lM9"/>
                     <constraint firstItem="QSm-6J-S6r" firstAttribute="top" secondItem="wpx-pr-0cD" secondAttribute="bottom" id="hqh-pq-jSa"/>
                     <constraint firstAttribute="trailing" secondItem="wpx-pr-0cD" secondAttribute="trailing" id="jk6-Rn-sGg"/>
                     <constraint firstItem="QSm-6J-S6r" firstAttribute="leading" secondItem="EbB-Dl-3Rg" secondAttribute="trailing" constant="10" id="leE-kp-jHD"/>
                     <constraint firstAttribute="trailing" secondItem="QSm-6J-S6r" secondAttribute="trailing" id="qKS-Nb-LIa"/>
-                    <constraint firstItem="EbB-Dl-3Rg" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.236686" id="sPa-cS-y0g"/>
                     <constraint firstAttribute="bottom" secondItem="EbB-Dl-3Rg" secondAttribute="bottom" id="ybD-wo-JbC"/>
                     <constraint firstItem="EbB-Dl-3Rg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="zKt-jm-RFk"/>
                 </constraints>
