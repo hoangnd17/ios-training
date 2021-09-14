@@ -326,10 +326,20 @@ extension MusiicViewController: MPMediaPickerControllerDelegate {
             return image
         })
         
+        var time: TimeInterval = 0
+        do {
+            let play = try AVAudioPlayer(contentsOf: model)
+            time = play.duration
+        } catch let error {
+            print(error)
+        }
+
         nowPlayingInfo[MPMediaItemPropertyTitle] = nameSong.text
         nowPlayingInfo[MPMediaItemPropertyArtist] = nameArtirst.text
+        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = time
         nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: 1.0)
+        
         nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
     }
     
@@ -343,6 +353,7 @@ extension MusiicViewController: MPMediaPickerControllerDelegate {
         commandCenter.pauseCommand.addTarget(self, action: #selector(pauseCenter))
         commandCenter.nextTrackCommand.addTarget(self, action: #selector(nextCenter))
         commandCenter.previousTrackCommand.addTarget(self, action: #selector(previousCenter))
+        
     }
     
     

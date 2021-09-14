@@ -38,22 +38,22 @@
                                 </connections>
                             </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JDq-hb-D0F">
-                                <rect key="frame" x="50" y="248" width="314" height="150"/>
+                                <rect key="frame" x="177" y="248" width="60" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="El3-iH-K3c"/>
+                                    <constraint firstAttribute="width" constant="60" id="o2Z-WY-KTm"/>
                                 </constraints>
                             </pickerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="JDq-hb-D0F" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="7r4-2F-RHB"/>
                             <constraint firstItem="4Vx-oZ-7FZ" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="Rdl-Yx-UEV"/>
                             <constraint firstItem="kFU-58-q7j" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="dG9-0N-OMv"/>
                             <constraint firstItem="4Vx-oZ-7FZ" firstAttribute="top" secondItem="JDq-hb-D0F" secondAttribute="bottom" constant="30" id="luQ-y9-GSk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="kFU-58-q7j" secondAttribute="trailing" constant="50" id="nvz-QQ-yEG"/>
-                            <constraint firstItem="JDq-hb-D0F" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="50" id="r87-lv-NXt"/>
                             <constraint firstItem="kFU-58-q7j" firstAttribute="top" secondItem="4Vx-oZ-7FZ" secondAttribute="bottom" constant="20" id="rEu-Xb-xAo"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JDq-hb-D0F" secondAttribute="trailing" constant="50" id="vRP-Cb-mIZ"/>
                             <constraint firstItem="4Vx-oZ-7FZ" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="wIh-yq-r5O"/>
                         </constraints>
                     </view>

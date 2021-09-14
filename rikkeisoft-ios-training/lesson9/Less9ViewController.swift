@@ -34,7 +34,7 @@ class Less9ViewController: UIViewController {
     @IBAction func start(_ sender: Any) {
         self.timer?.invalidate()
 
-        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
 
     }
     
