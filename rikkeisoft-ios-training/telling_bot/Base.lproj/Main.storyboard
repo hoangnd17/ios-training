@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Telling View Controller-->
+        <!--Home-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="TellingViewController" customModule="telling_bot" customModuleProvider="target" sceneMemberID="viewController">
@@ -18,7 +18,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="eB8-b7-egh">
+                    <navigationItem key="navigationItem" title="Home" id="eB8-b7-egh">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="6bs-jk-26g">
                             <connections>
                                 <action selector="next:" destination="BYZ-38-t0r" id="qCU-4z-HNQ"/>
@@ -37,9 +37,38 @@
                     <view key="view" contentMode="scaleToFill" id="nYq-me-Ahx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CV2-9a-lPh">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="item" id="wDa-iE-eSz">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wDa-iE-eSz" id="Vz9-TV-qf8">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="86L-Le-vs6" id="FKA-uY-dZh"/>
+                                    <outlet property="delegate" destination="86L-Le-vs6" id="TQ3-sf-1oK"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="5cb-t6-ZAM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="CV2-9a-lPh" firstAttribute="leading" secondItem="5cb-t6-ZAM" secondAttribute="leading" id="0SF-hG-RdO"/>
+                            <constraint firstItem="CV2-9a-lPh" firstAttribute="top" secondItem="5cb-t6-ZAM" secondAttribute="top" id="0ee-La-mFH"/>
+                            <constraint firstItem="5cb-t6-ZAM" firstAttribute="bottom" secondItem="CV2-9a-lPh" secondAttribute="bottom" id="Prl-sc-L1S"/>
+                            <constraint firstItem="5cb-t6-ZAM" firstAttribute="trailing" secondItem="CV2-9a-lPh" secondAttribute="trailing" id="yuO-4L-e7S"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="CV2-9a-lPh" id="WTR-V5-aL0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vnr-33-GNE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
