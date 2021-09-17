@@ -7,6 +7,7 @@
 
 import UIKit
 import AlanSDK
+import FBSDKShareKit
 
 class TellingViewController: UIViewController {
     
@@ -15,6 +16,10 @@ class TellingViewController: UIViewController {
     private var text: AlanText!
     
     private var greetingIsPlayed = false
+    
+    let gfID = "100028331418733"
+    
+    @IBOutlet weak var mess: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +37,28 @@ class TellingViewController: UIViewController {
         
         self.setVisualState(state: ["screen": "home"])
         
+    }
+    
+    @IBAction func callMess(_ sender: Any) {
+        
+        guard let url = URL(string: "https://newsroom.fb.com/") else {
+            preconditionFailure("URL is invalid")
+        }
+
+        let content = ShareLinkContent()
+        content.contentURL = url
+        
+        let dialog = MessageDialog()
+        dialog.shareContent = content
+        dialog.delegate = self
+        
+        do {
+            try dialog.validate()
+        } catch {
+            print(error)
+        }
+
+        dialog.show()
     }
     
     private func setupAlan() {
@@ -124,6 +151,7 @@ class TellingViewController: UIViewController {
                 }
             }
         }
+        
         // highlight
         else if commandString == "highlight" {
             
@@ -135,8 +163,25 @@ class TellingViewController: UIViewController {
                 self.highlightItem(item: itemString)
             }
         }
+        else if commandString == "mess" {
+            DispatchQueue.main.async {
+                self.openMess()
+            }
+            
+        }
     }
     
+    private func openMess() {
+        let id = "fb-messenger://user-thread/\(gfID)"
+        let url = URL(string: id)!
+        if UIApplication.shared.canOpenURL(url)
+        {
+            UIApplication.shared.open(url)
+        } else {
+            //redirect to home because the user doesn't have messenger
+            UIApplication.shared.open(URL(string: "fb-messenger://user-thread/dainguyen.175")!)
+        }
+    }
     private func highlightItem(item: String) {
         if let secondVC = self.navigationController?.viewControllers.last as? NextViewController {
             secondVC.highlightItem(item: item)
@@ -147,7 +192,7 @@ class TellingViewController: UIViewController {
         if !self.button.isActive() {
             self.button.activate()
         }
-    
+        
         // send data to server
         self.button.callProjectApi("selectItem", withData: ["item": item]) { (_, _) in
             print("callProjectApi was called")
@@ -211,5 +256,22 @@ class TellingViewController: UIViewController {
             self.button.deactivate()
         }
     }
+    
+    
 }
 
+extension TellingViewController: SharingDelegate {
+    func sharer(_ sharer: Sharing, didCompleteWithResults results: [String : Any]) {
+        print(results)
+    }
+    
+    func sharer(_ sharer: Sharing, didFailWithError error: Error) {
+        
+    }
+    
+    func sharerDidCancel(_ sharer: Sharing) {
+        
+    }
+    
+    
+}

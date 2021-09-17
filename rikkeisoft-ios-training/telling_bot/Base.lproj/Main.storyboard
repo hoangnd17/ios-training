@@ -15,16 +15,36 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zlQ-gO-WoC">
+                                <rect key="frame" x="0.0" y="88" width="83" height="83"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="zlQ-gO-WoC" secondAttribute="height" multiplier="1:1" id="cqC-LD-I3o"/>
+                                </constraints>
+                                <state key="normal" image="Logo"/>
+                                <connections>
+                                    <action selector="callMess:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uW9-Yt-s6d"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="zlQ-gO-WoC" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.2" id="2IL-JJ-gkS"/>
+                            <constraint firstItem="zlQ-gO-WoC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="G1c-1L-kGl"/>
+                            <constraint firstItem="zlQ-gO-WoC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QiW-TS-qW9"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="eB8-b7-egh">
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="6bs-jk-26g">
+                    <navigationItem key="navigationItem" title="Home" id="LJb-8h-DCy">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="Up2-2X-WA6">
                             <connections>
-                                <action selector="next:" destination="BYZ-38-t0r" id="qCU-4z-HNQ"/>
+                                <action selector="next:" destination="BYZ-38-t0r" id="p6a-UX-yGQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mess" destination="zlQ-gO-WoC" id="2l0-5c-Ruf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -92,6 +112,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Logo" width="259" height="224"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

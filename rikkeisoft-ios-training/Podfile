@@ -1,0 +1,140 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'basic_weather' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for basic_weather
+
+end
+
+target 'lesson10' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson10
+
+end
+
+target 'lesson11' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson11
+
+end
+
+target 'lesson12' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson12
+
+end
+
+target 'lesson13' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson13
+
+end
+
+target 'lesson14' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson14
+
+end
+
+target 'lesson15' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson15
+
+end
+
+target 'lesson17' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson17
+
+end
+
+target 'lesson3' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson3
+
+end
+
+target 'lesson4' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson4
+
+end
+
+target 'lesson5' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson5
+
+end
+
+target 'lesson7' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson7
+
+end
+
+target 'lesson8' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson8
+
+end
+
+target 'lesson9' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for lesson9
+
+end
+
+target 'music_play' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for music_play
+
+end
+
+target 'rikkeisoft-ios-training' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for rikkeisoft-ios-training
+
+end
+
+target 'telling_bot' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for telling_bot
+ pod 'FBSDKCoreKit'
+ pod 'FBSDKLoginKit'
+ pod 'FBSDKShareKit'
+end
